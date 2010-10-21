@@ -1,13 +1,13 @@
 #!/bin/sh
 #
-# options-webservice    Startup script for the options-webservice
+# tapd    Startup script for the tapd
 #
 # chkconfig: 2345 95 5
-# description: options-webservice for controltier.
-# pidfile: /var/run/options-webservice.pid
+# description: tapd, providing taps to your datacenter.
+# pidfile: /var/run/tapd.pid
 
 # processname: lighttpd
-# config: /etc/ctier/options.conf
+# config: /etc/tapd/options.conf
 #
 
 # Source function library
@@ -18,11 +18,11 @@ if [ -f /etc/sysconfig/lighttpd ]; then
 	. /etc/sysconfig/lighttpd
 fi
 
-prog="options-webservice"
-lighttpd="/usr/sbin/options-webservice"
+prog="tapd"
+lighttpd="/usr/sbin/tapd"
 RETVAL=0
-PID_FILE=/var/run/options-webservice.pid
-LIGHTTPD_CONF_PATH=/etc/ctier/options.conf 
+PID_FILE=/var/run/tapd.pid
+LIGHTTPD_CONF_PATH=/etc/tapd/options.conf 
 
 start() {
 	echo -n $"Starting $prog: "
