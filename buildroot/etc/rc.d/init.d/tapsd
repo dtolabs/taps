@@ -1,0 +1,82 @@
+#!/bin/sh
+#
+# options-webservice    Startup script for the options-webservice
+#
+# chkconfig: 2345 95 5
+# description: options-webservice for controltier.
+# pidfile: /var/run/options-webservice.pid
+
+# processname: lighttpd
+# config: /etc/ctier/options.conf
+#
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+
+if [ -f /etc/sysconfig/lighttpd ]; then
+	. /etc/sysconfig/lighttpd
+fi
+
+prog="options-webservice"
+lighttpd="/usr/sbin/options-webservice"
+RETVAL=0
+PID_FILE=/var/run/options-webservice.pid
+LIGHTTPD_CONF_PATH=/etc/ctier/options.conf 
+
+start() {
+	echo -n $"Starting $prog: "
+	daemon $lighttpd -f $LIGHTTPD_CONF_PATH
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$prog
+	return $RETVAL
+}
+
+stop() {
+	echo -n $"Stopping $prog: "
+	killproc $lighttpd
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$prog
+	return $RETVAL
+}
+
+reload() {
+	echo -n $"Reloading $prog: "
+	killproc $lighttpd -HUP
+	RETVAL=$?
+	echo
+	return $RETVAL
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		start
+		;;
+	condrestart)
+		if [ -f /var/lock/subsys/$prog ]; then
+			stop
+			start
+		fi
+		;;
+	reload)
+		reload
+		;;
+	status)
+		status $lighttpd
+		RETVAL=$?
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|restart|condrestart|reload|status}"
+		RETVAL=1
+esac
+
+exit $RETVAL
