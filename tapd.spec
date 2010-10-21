@@ -17,13 +17,13 @@ The webservice uses the CGI standard to return json to Rundeck.  By placing a fi
 
 %files
 %defattr(644, tapd, tapd, 755)
-%attr(-, tapd, tapd) %config /etc/tapd/options.conf
+%config(noreplace) %attr(-, tapd, tapd) %config /etc/tapd/options.conf
 %attr(755, -, -) /etc/rc.d/init.d/tapd
 %attr(-, tapd, tapd) %ghost /var/log/tapd/tapd.error.log
 %attr(-, tapd, tapd) %ghost /var/log/tapd/tapd.access.log
 %attr(-, tapd, tapd) %ghost /var/log/tapd/dav.access.log
 %attr(-, tapd, tapd) %dir /var/run/tapd/dav
-/usr/sbin/tapd
+%attr(755, -, -) /usr/sbin/tapd
 
 %post
 /sbin/chkconfig --add tapd
