@@ -25,6 +25,10 @@ The webservice uses the CGI standard to return json to Rundeck.  By placing a fi
 %attr(-, tapd, tapd) %dir /var/run/tapd/dav
 %attr(755, -, -) /usr/sbin/tapd
 
+%pre
+getent group tapd >/dev/null || groupadd tapd
+getent passwd tapd >/dev/null || useradd -m -g tapd tapd
+
 %post
 /sbin/chkconfig --add tapd
 
