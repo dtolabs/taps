@@ -5,20 +5,8 @@ TAP Integration Service - tapd
 ## Overview
 `tapd` provides an http damon to serve node metadata in JSON for consumption JSON.  The underlying architecture relies on (a variation of) CGI as the API.  CGI represents the lowest common denominator and works with almost every programming language and shell.
 
-## Nodes Format
-
-`
-{
-    "{uuid}": {
-        "hostname": "value",
-        "ipv4": "x.x.x.x",
-        "ipv6": "2001::XXXX",
-        "tags": ["a","b","c","d"],
-    }
-}
-`
-
-## Options Format
+## .options JSON Format
+The resulting CGI must produce a JSON Map or JSON List.
 
 `
 {
@@ -33,4 +21,16 @@ TAP Integration Service - tapd
 [
     "Value1", "Value2", ..., "ValueN",
 ]
+`
+
+## .resources JSON Format (proposed)
+`
+{
+    "{uuid}": {
+        "hostname": "value",
+        "ipv4": "x.x.x.x",
+        "ipv6": "2001::XXXX",
+        "tags": ["a","b","c","d"],
+    }
+}
 `
